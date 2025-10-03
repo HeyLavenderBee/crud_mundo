@@ -1,9 +1,21 @@
 *{
     margin: 0;
+    font-family: "DM Serif Text";
+}
+
+.dm-serif-text-regular {
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.dm-serif-text-regular-italic {
+font-family: "DM Serif Text", serif;
+font-weight: 400;
+font-style: italic;
 }
 
 .header{
-    width: 100%;
     height: 60px;
     padding: 15px;
     background-color: lightblue;
@@ -12,6 +24,10 @@
 
 .main{
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .forms-row{
@@ -23,15 +39,19 @@
 }
 
 .form-content{
-    width: 300px;
-    height: 250px;
-    padding: 15px;
-    background-color: rgb(166, 190, 199);
+    width: 320px;
+    height: 350px;
+    padding: 19px;
+    padding-left: 23px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(188, 213, 223);
     border-radius: 7px;
     margin-bottom: 50px;
 }
 
 .text-input{
+    width: 80%;
     border-radius: 3px;
     border: none;
     padding: 5px;
@@ -46,6 +66,8 @@
 }
 
 .table-content{
+    justify-self: center;
+    width: 50%;
     border-collapse: collapse;
     background-color: aliceblue;
     border: 1px solid;
