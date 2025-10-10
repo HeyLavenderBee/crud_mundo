@@ -31,17 +31,27 @@ values
 ("Canadá", 41290000, "América", "Inglês e francês"),
 ("Suriname", 634431, "América", "Neerlandês"),
 ("Uruguai", 3387000, "América", "Espanhol"),
+("Bangladesh", 173600000, "Ásia", "Bengali"),
+("Geórgia", 3674000, "Ásia", "Georgiano"),
+("Indonésia", 283500000, "Ásia", "Indonésio"),
+("Japão", 124000000, "Ásia", "Japonês"),
+("Nepal", 29650000, "Ásia", "Nepalês"),
 ("Grécia", 10390000, "Europa", "Grego"),
 ("Irlanda", 5380000, "Europa", "Irlandês e inglês"),
 ("Polônia", 36550000, "Europa", "Polonês"),
 ("Suécia", 10570000, "Europa", "Polonês"),
-("Turquia", 85520000, "Europa", "Turco");
+("Turquia", 85520000, "Europa", "Turco"),
+("Austrália", 27200000, "Oceania", "Inglês"),
+("Fiji", 928784, "Oceania", "Língua fijiana"),
+("Ilhas Marshall", 37548, "Oceania", "Língua marshallesa e Inglês"),
+("Nova Zelândia", 5338000, "Oceania", "Inglês e Maori"),
+("Papua Nova Guiné", 12540000, "Oceania", "Inglês, Língua hiri motu");
 
 /*
 Paises p/ adicionar:
 África - Botsuana, São Tomé e Principe, Madagascar, Camarões, Líbia
 América - Brasil, Panamá, Canadá, Suriname, Uruguai
-Ásia - Bangladesh, Hong Kong, Indonésia, Japão, Geórgia
+Ásia - Bangladesh, Nepal, Indonésia, Japão, Geórgia
 Europa - Turquia, Irlanda, Suíça, Polônia, Grécia
 Oceania - Nova Zelândia, Papua Nova Guiné, Ilhas Marshall, Austrália, Fiji
 */
