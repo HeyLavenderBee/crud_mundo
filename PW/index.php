@@ -118,7 +118,7 @@
         <h3>Tabela de cidades</h3>
         <?php
             //para mostrar cada valor dos países em uma tabela
-            $sql = "SELECT * FROM cidades";
+            $sql = "SELECT cidades.id_cidade, cidades.id_pais, cidades.nome, cidades.habitantes, paises.nome as paises_nome FROM cidades INNER JOIN paises ON cidades.id_pais = paises.id_pais";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -127,14 +127,14 @@
                 <th>ID</th>
                 <th>Nome</th>
                 <th>Habitantes</th>
-                <th>id_pais</th>
+                <th>País</th>
                 </tr>";
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     echo "<th>" . $row["id_cidade"] . "</th>";
                     echo "<th>" . $row["nome"] . "</th>";
                     echo "<th>" . $row["habitantes"] . "</th>";
-                    echo "<th>" . $row["id_pais"] . "</th>";
+                    echo "<th>" . $row["paises_nome"] . "</th>";
                     echo "</tr>";
                 }
                 echo "</table>";
