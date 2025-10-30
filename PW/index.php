@@ -1,42 +1,6 @@
 <?php
     include("connection.php");
     session_start();
-
-    #um condicional para quando o formulário for enviado
-    if($_SERVER["REQUEST_METHOD"]=="POST"){
-        #variáveis do formulário guardadas em outras, que vão ser usadas no insert
-        $country_name = $_POST["country_name"];
-        $country_population = $_POST["country_population"];
-        $continent = $_POST["selected_continent"];
-        $language = $_POST["language"];
-        $city_name = $_POST["city_name"];
-
-        #checa se o país já existe, pelo nome
-        $sql = "SELECT * FROM paises WHERE nome = ?;";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $country_name);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        #se for achado um país ou mais com aquele nome, vai mandar a mensagem que já existe
-        if ($result->num_rows > 0) {
-            echo "<div class='wrong-password'>Já existe um país com esse nome.</div><br><br>";
-        }
-        #senão, o país é cadastrado no banco de dados
-        else{
-            $sql = "INSERT INTO paises(nome, habitantes, continente, idioma) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssss", $country_name, $country_population, $continent, $language);
-
-            #condicionais para executar conexão com o banco de dados
-            if ($stmt->execute()) {
-                echo "País cadastrado com sucesso!";
-                header("Location: index.php");
-            } else {
-                echo "Algo deu errado por nossa parte...";
-            }
-        }
-    }
 ?>
 
 <!DOCTYPE html>
@@ -55,34 +19,9 @@
     <!-- Cabeçalho -->
     <div class="header">CRUD Mundo</div>
     <a href="forms/city_forms.php">forms cidade</a>
+    <br>
+    <a href="forms/country_forms.php">forms país</a>
     <div class="main">
-        <div class="forms-row">
-            <div class="form-content">
-                <h3>Forms país</h3><br>
-
-                <!-- Formulário -->
-                <form method="post">
-                    Nome<br>
-                    <input class="text-input" type="text" name="country_name" required>
-                    <br>Habitantes<br>
-                    <input class="text-input" type="number" name="country_population" min="0" required>
-
-                    <!-- input para selecionar o continente, e limitar as opções do usuário -->
-                    <select class="text-input" id="continent_select" name="selected_continent">
-                        <option value="">Selecione um continente</option>
-                        <option value="África">África</option>
-                        <option value="América">América</option>
-                        <option value="Ásia">Ásia</option>
-                        <option value="Europa">Europa</option>
-                        <option value="Oceania">Oceania</option>
-                    </select>
-                    <br>Idioma<br>
-                    <input class="text-input" type="text" name="language" required>
-                    <br>
-                    <input class="submit-input" type="submit" name="submit" value="Adicionar país">
-                </form>
-            </div>
-        </div>
 
         <h3>Tabela de países</h3>
         <?php
@@ -106,6 +45,10 @@
                     echo "<th>" . $row["habitantes"] . "</th>";
                     echo "<th>" . $row["continente"] . "</th>";
                     echo "<th>" . $row["idioma"] . "</th>";
+                    echo "<th>
+                        <a href='forms/update_country.php?id=" . $row["id_pais"] . "' class='table-button'>Editar</a>
+                        <a href='forms/delete_country.php?id=" . $row["id_pais"] . "' class='table-button' onclick='return confirm(\"Tem certeza que quer excluir o país? Todas as cidades relacionadas a ele serão excluídas também\")'>Excluir</a>
+                    </th>";
                     echo "</tr>";
                 }
                 echo "</table>";
@@ -118,7 +61,7 @@
         <h3>Tabela de cidades</h3>
         <?php
             //para mostrar cada valor dos países em uma tabela
-            $sql = "SELECT cidades.id_cidade, cidades.id_pais, cidades.nome, cidades.habitantes, paises.nome as paises_nome FROM cidades INNER JOIN paises ON cidades.id_pais = paises.id_pais";
+            $sql = "SELECT cidades.id_cidade, cidades.id_pais, cidades.nome, cidades.habitantes, paises.nome as paises_nome FROM cidades INNER JOIN paises ON cidades.id_pais = paises.id_pais ORDER BY cidades.id_cidade;";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -135,6 +78,10 @@
                     echo "<th>" . $row["nome"] . "</th>";
                     echo "<th>" . $row["habitantes"] . "</th>";
                     echo "<th>" . $row["paises_nome"] . "</th>";
+                    echo "<th>
+                        <a href='forms/update_city.php?id=" . $row["id_cidade"] . "' class='table-button'>Editar</a>
+                        <a href='forms/delete_city.php?id=" . $row["id_cidade"] . "' class='table-button' onclick='return confirm(\"Tem certeza que quer excluir?\")'>Excluir</a>
+                    </th>";
                     echo "</tr>";
                 }
                 echo "</table>";

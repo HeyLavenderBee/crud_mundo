@@ -14,9 +14,14 @@ create table cidades(
 id_cidade int auto_increment primary key,
 nome varchar(100),
 habitantes int not null,
-id_pais int,
-foreign key(id_pais) references paises(id_pais)
+id_pais int
 );
+
+-- isso faz com que, quando um país for deletado, todas as cidades relacionadas a ele também sejam deletadas
+ALTER TABLE cidades
+ADD CONSTRAINT fk_id_pais
+FOREIGN KEY (id_pais) REFERENCES paises(id_pais)
+ON DELETE CASCADE;
 
 insert into paises(
 nome, habitantes, continente, idioma)
