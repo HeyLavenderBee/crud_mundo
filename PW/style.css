@@ -1,6 +1,7 @@
 *{
     margin: 0;
     font-family: "DM Serif Text";
+	background-color: #efeff3;
 }
 
 .dm-serif-text-regular {
@@ -28,6 +29,26 @@ font-style: italic;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.forms-link-container{
+	width: 40%;
+	height: 40px;
+	justify-self: center;
+	display: flex;
+	flex-direction: row;
+	gap: 8px;
+	margin-bottom: 40px;
+}
+
+.form-link{
+	width: 100%;
+	text-align: center;
+	text-decoration: none;
+	padding: 8px;
+	background-color: lightblue;
+	color: white;
+	border-radius: 7px;
 }
 
 .forms-row{
@@ -65,13 +86,34 @@ font-style: italic;
     border: none;
 }
 
-.table-content{
+.table-content {
     justify-self: center;
     width: 50%;
     border-collapse: collapse;
-    background-color: aliceblue;
-    border: 1px solid;
+    background-color: white;
+    border: 1px solid #999;
     margin-bottom: 30px;
+}
+
+.table-content td {
+    border: 1px solid #999;
+    padding: 8px;
+    text-align: left;
+    background-color: white;
+}
+
+.table-content th {
+	border: 1px solid #999;
+    padding: 8px;
+    text-align: left;
+    background-color: #eafafd;
+}
+
+.table-button{
+	text-decoration: none;
+	color: #1276b5;
+	margin-right: 10px;
+	background-color: #00000000;
 }
 
 th{

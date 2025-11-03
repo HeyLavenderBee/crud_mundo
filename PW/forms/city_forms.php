@@ -57,32 +57,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="header">Formulário de cidades</div>
     <a href="../index.php">Voltar</a>
     <div class="main">
+		<h3>Forms cidade</h3><br>
         <div class="forms-row">
-            <div class="form-content">
-                <h3>Forms cidade</h3><br>
-
-                <!-- Formulário cidades -->
-                <form method="post">
-                    Nome<br>
-                    <input class="text-input" type="text" name="city_name" required>
-                    <br>Habitantes<br>
-                    <input class="text-input" type="number" name="city_population" min="0" required><br>
-                    <!-- input para selecionar o país relacionado -->
-                    <select class="text-input" id="country_select" name="selected_country">
-                        <option value="">Selecione o país relacionado</option>
-                        <?php
-                        $sql = "SELECT * FROM paises;";
-                        $result = $conn->query($sql);
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='" . $row['id_pais'] . "'>" . $row['nome'] . "</option>";
-                        }
-                        ?>
-                        <option value="1">Brasil</option>
-                    </select>
-                    <br>
-                    <input class="submit-input" type="submit" name="submit" value="Adicionar cidade">
-                </form>
-            </div>
+			<!-- Formulário cidades -->
+			<form method="post" class="form-content">
+				Nome<br>
+				<input class="text-input" type="text" name="city_name" required>
+				<br>Habitantes<br>
+				<input class="text-input" type="number" name="city_population" min="0" required><br>
+				<!-- input para selecionar o país relacionado -->
+				<!-- Tentar colocar o valor anterior do campo aqui, para o usuário ter uma base -->
+				<select class="text-input" id="country_select" name="selected_country">
+					<option value="">Selecione o país relacionado</option>
+					<?php
+					$sql = "SELECT * FROM paises;";
+					$result = $conn->query($sql);
+					while ($row = $result->fetch_assoc()) {
+						echo "<option value='" . $row['id_pais'] . "'>" . $row['nome'] . "</option>";
+					}
+					?>
+					<option value="1">Brasil</option>
+				</select>
+				<br>
+				<input class="submit-input" type="submit" name="submit" value="Adicionar cidade">
+			</form>
         </div>
     </div>
 </body>

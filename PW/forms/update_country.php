@@ -39,16 +39,17 @@
 <body>
     <div class="header">CRUD Mundo</div>
     <div class="main">
+	<a href="../index.php">Voltar</a>
         <h2>Editar País</h2>
-        <form method="POST">
+        <form method="POST" class="form-content">
             <input type="hidden" name="id" value="<?php echo $row['id_pais']; ?>">
-            <label>Nome</label><br>
-            <input type="text" name="nome" value="<?php echo $row['nome']; ?>"><br><br>
+            Nome<br>
+            <input class="text-input" type="text" name="nome" value="<?php echo $row['nome']; ?>"><br><br>
 
-            <label>Habitantes</label><br>
-            <input type="number" name="habitantes" value="<?php echo $row['habitantes']; ?>"><br><br>
+            Habitantes<br>
+            <input class="text-input" type="number" name="habitantes" value="<?php echo $row['habitantes']; ?>"><br><br>
 
-            <input type="submit" value="Atualizar país">
+            <input class="submit-input" type="submit" value="Atualizar país">
         </form>
     </div>
 </body>

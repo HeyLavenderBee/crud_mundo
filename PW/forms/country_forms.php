@@ -41,35 +41,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../style.css">
     <title>Cadastro de país</title>
 </head>
 <body>
-     <div class="forms-row">
-            <div class="form-content">
-                <h3>Forms país</h3><br>
+	<div class="header">Formulário de cidades</div>
+    <a href="../index.php">Voltar</a>
+    <div class="main">
+		<h3>Forms país</h3><br>
+		<div class="forms-row">
 
-                <!-- Formulário de países -->
-                <form method="post">
-                    Nome<br>
-                    <input class="text-input" type="text" name="country_name" required>
-                    <br>Habitantes<br>
-                    <input class="text-input" type="number" name="country_population" min="0" required>
+			<!-- Formulário de países -->
+			<form method="post" class="form-content">
+				Nome<br>
+				<input class="text-input" type="text" name="country_name" required>
+				<br>Habitantes<br>
+				<input class="text-input" type="number" name="country_population" min="0" required>
 
-                    <!-- input para selecionar o continente, e limitar as opções do usuário -->
-                    <select class="text-input" id="continent_select" name="selected_continent">
-                        <option value="">Selecione um continente</option>
-                        <option value="África">África</option>
-                        <option value="América">América</option>
-                        <option value="Ásia">Ásia</option>
-                        <option value="Europa">Europa</option>
-                        <option value="Oceania">Oceania</option>
-                    </select>
-                    <br>Idioma<br>
-                    <input class="text-input" type="text" name="language" required>
-                    <br>
-                    <input class="submit-input" type="submit" name="submit" value="Adicionar país">
-                </form>
-            </div>
+				<!-- input para selecionar o continente, e limitar as opções do usuário -->
+				<select class="text-input" id="continent_select" name="selected_continent">
+					<option value="">Selecione um continente</option>
+					<option value="África">África</option>
+					<option value="América">América</option>
+					<option value="Ásia">Ásia</option>
+					<option value="Europa">Europa</option>
+					<option value="Oceania">Oceania</option>
+				</select>
+				<br>Idioma<br>
+				<input class="text-input" type="text" name="language" required>
+				<br>
+				<input class="submit-input" type="submit" name="submit" value="Adicionar país">
+			</form>
         </div>
+	</div>
 </body>
 </html>
