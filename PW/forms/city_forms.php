@@ -1,5 +1,5 @@
 <?php
-include("../connection.php");
+include("../bd/connection.php");
 session_start();
 
 #um condicional para quando o formulário for enviado
@@ -61,13 +61,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="forms-row">
 			<!-- Formulário cidades -->
 			<form method="post" class="form-content">
-				Nome<br>
+				<div class="form-input-title">Nome</div>
 				<input class="text-input" type="text" name="city_name" required>
-				<br>Habitantes<br>
+				<div class="form-input-title">Habitantes</div>
 				<input class="text-input" type="number" name="city_population" min="0" required><br>
 				<!-- input para selecionar o país relacionado -->
 				<!-- Tentar colocar o valor anterior do campo aqui, para o usuário ter uma base -->
-				<select class="text-input" id="country_select" name="selected_country">
+				<select class="select-input" id="country_select" name="selected_country">
 					<option value="">Selecione o país relacionado</option>
 					<?php
 					$sql = "SELECT * FROM paises;";

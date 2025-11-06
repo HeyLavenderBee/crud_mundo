@@ -4,6 +4,10 @@
 	background-color: #efeff3;
 }
 
+:root {
+    --lightblue: rgb(101, 169, 194);
+}
+
 .dm-serif-text-regular {
     font-family: "DM Serif Text", serif;
     font-weight: 400;
@@ -19,11 +23,21 @@ font-style: italic;
 .header{
     height: 60px;
     padding: 15px;
-    background-color: lightblue;
-    margin-bottom: 50px;
+    text-align: center;
+    font-size: 23px;
+    background-color: var(--lightblue);
+}
+
+.map-banner{
+    background-image: url('assets/map-image.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 200px;
 }
 
 .main{
+    margin-top: 30px;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -63,32 +77,56 @@ font-style: italic;
     width: 320px;
     height: 350px;
     padding: 19px;
-    padding-left: 23px;
     display: flex;
     flex-direction: column;
-    background-color: rgb(188, 213, 223);
-    border-radius: 7px;
+    align-items: center;
+    background-color: var(--lightblue);
+    border-radius: 14px;
     margin-bottom: 50px;
+    padding-bottom: 40px;
+}
+
+.form-input-title{
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    background-color: #00000000;
 }
 
 .text-input{
     width: 80%;
-    border-radius: 3px;
+    border-radius: 5px;
     border: none;
     padding: 5px;
     margin-bottom: 15px;
 }
 
-.submit-input{
+.select-input{
+    width: 83%;
     border-radius: 5px;
-    padding: 5px;
+    border: none;
+    padding: 7px;
+    margin-top: 13px;
+    margin-bottom: 15px;
+}
+
+.submit-input{
+    width: 50%;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 9px;
     background-color: rgb(153, 126, 179);
     border: none;
 }
 
+.intro-text{
+    width: 70%;
+    text-align: center;
+}
+
 .table-content {
     justify-self: center;
-    width: 50%;
+    width: 80%;
     border-collapse: collapse;
     background-color: white;
     border: 1px solid #999;
@@ -121,3 +159,96 @@ th{
     padding: 5px;
     height: 20px;
 }
+
+.back-button{
+    text-decoration: none;
+    font-size: 20px;
+    color: rgb(38, 49, 98);
+    padding: 8px;
+    margin: 5px;
+    margin-left: 20px;
+    border-radius: 7px;
+}
+
+.search-container{
+    width: 55%;
+    height: 300px;
+    padding: 16px;
+    padding-top: 25px;
+    border-radius: 8px;
+    background-color: #5494bc;
+    margin-bottom: 20px;
+}
+
+.search-container h3{
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    background-color: #00000000;
+}
+
+/*por algum motivo os itens produzem cor de fundo automaticamente neles, então isso serve para tirar*/
+.search-container h4,p, strong{
+    background-color: #00000000;
+    font-size: 18px;
+}
+
+.search-form{
+    margin-top: 10px;
+    width: 40%;
+    padding: 10px;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background-color: #00000000;
+}
+
+.search-result-container{
+    margin-top: 20px;
+    width: 50%;
+    height: 65%;
+    padding: 15px;
+    padding-left: 20px;
+    margin-right: 25px;
+    float: right;
+    border-radius: 8px;
+    background-color: #78b2d9;
+}
+
+@media only screen and (max-width: 1200px) {
+    .forms-row{
+        flex-direction: column;
+    }
+
+    .intro-text{
+        width: 70%;
+        text-align: center;
+    }
+
+    .forms-link-container{
+        width: 70%;
+        height: 42px;
+        gap: 2px;
+        flex-direction: column;
+    }
+
+    .table-content {
+        width: 90%;
+    }
+
+    .search-container{
+        flex-direction: column;
+    }
+
+    .search-form{
+        width: 100%;
+        float: none;
+    }
+
+    .search-result-container{
+        width: 90%;
+        float: none;
+    }
+}
+

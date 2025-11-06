@@ -7,7 +7,8 @@ id_pais int auto_increment primary key,
 nome varchar(100) unique not null,
 habitantes int not null,
 continente varchar(50) not null,
-idioma varchar(100) not null
+idioma varchar(100) not null,
+nome_ingles varchar(100)
 );
 
 create table cidades(
@@ -23,34 +24,34 @@ ADD CONSTRAINT fk_id_pais
 FOREIGN KEY (id_pais) REFERENCES paises(id_pais)
 ON DELETE CASCADE;
 
-insert into paises(
-nome, habitantes, continente, idioma)
-values
-("Botsuana", 2521000, "África", "Inglês"),
-("Camarões", 29120000, "África", "Francês e Inglês"),
-("Líbia", 7381000, "África", "Árabe"),
-("Madagascar", 31960000, "África", "Malgaxe e Francês"),
-("São Tomé e Príncipe", 235536, "África", "Português"),
-("Brasil", 212600000, "América", "Português"),
-("Panamá", 4516000, "América", "Espanhol"),
-("Canadá", 41290000, "América", "Inglês e francês"),
-("Suriname", 634431, "América", "Neerlandês"),
-("Uruguai", 3387000, "América", "Espanhol"),
-("Bangladesh", 173600000, "Ásia", "Bengali"),
-("Geórgia", 3674000, "Ásia", "Georgiano"),
-("Indonésia", 283500000, "Ásia", "Indonésio"),
-("Japão", 124000000, "Ásia", "Japonês"),
-("Nepal", 29650000, "Ásia", "Nepalês"),
-("Grécia", 10390000, "Europa", "Grego"),
-("Irlanda", 5380000, "Europa", "Irlandês e inglês"),
-("Polônia", 36550000, "Europa", "Polonês"),
-("Suécia", 10570000, "Europa", "Polonês"),
-("Turquia", 85520000, "Europa", "Turco"),
-("Austrália", 27200000, "Oceania", "Inglês"),
-("Fiji", 928784, "Oceania", "Língua fijiana"),
-("Ilhas Marshall", 37548, "Oceania", "Língua marshallesa e Inglês"),
-("Nova Zelândia", 5338000, "Oceania", "Inglês e Maori"),
-("Papua Nova Guiné", 12540000, "Oceania", "Inglês, Língua hiri motu");
+INSERT INTO paises(
+nome, habitantes, continente, idioma, nome_ingles)
+VALUES
+("Botsuana", 2521000, "África", "Inglês", "Botswana"),
+("Camarões", 29120000, "África", "Francês e Inglês", "Cameroon"),
+("Líbia", 7381000, "África", "Árabe", "Libya"),
+("Madagascar", 31960000, "África", "Malgaxe e Francês", "Madagascar"),
+("São Tomé e Príncipe", 235536, "África", "Português", "São Tomé and Principe"),
+("Brasil", 212600000, "América", "Português", "Brazil"),
+("Panamá", 4516000, "América", "Espanhol", "Panama"),
+("Canadá", 41290000, "América", "Inglês e francês", "Canada"),
+("Suriname", 634431, "América", "Neerlandês", "Suriname"),
+("Uruguai", 3387000, "América", "Espanhol", "Uruguay"),
+("Bangladesh", 173600000, "Ásia", "Bengali", "Bangladesh"),
+("Geórgia", 3674000, "Ásia", "Georgiano", "Georgia"),
+("Indonésia", 283500000, "Ásia", "Indonésio", "Indonesia"),
+("Japão", 124000000, "Ásia", "Japonês", "Japan"),
+("Nepal", 29650000, "Ásia", "Nepalês", "Nepal"),
+("Grécia", 10390000, "Europa", "Grego", "Greece"),
+("Irlanda", 5380000, "Europa", "Irlandês e inglês", "Ireland"),
+("Polônia", 36550000, "Europa", "Polonês", "Poland"),
+("Suécia", 10570000, "Europa", "Polonês", "Sweden"),
+("Turquia", 85520000, "Europa", "Turco", "Turkey"),
+("Austrália", 27200000, "Oceania", "Inglês", "Australia"),
+("Fiji", 928784, "Oceania", "Língua fijiana", "Fiji"),
+("Ilhas Marshall", 37548, "Oceania", "Língua marshallesa e Inglês", "Marshall Islands"),
+("Nova Zelândia", 5338000, "Oceania", "Inglês e Maori", "New Zealand"),
+("Papua Nova Guiné", 12540000, "Oceania", "Inglês, Língua hiri motu", "Papua New Guinea");
 
 INSERT INTO cidades (nome, habitantes, id_pais) VALUES
 -- 1 Botsuana

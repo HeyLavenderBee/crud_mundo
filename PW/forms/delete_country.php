@@ -1,5 +1,5 @@
 <?php
-    include '../connection.php'; // seu arquivo de conexão
+    include '../bd/connection.php'; // seu arquivo de conexão
 
     if (isset($_GET['id'])) {
         $id = $_GET['id'];

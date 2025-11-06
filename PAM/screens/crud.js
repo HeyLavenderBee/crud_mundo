@@ -16,20 +16,29 @@ export default function App({ navigation }) {
     navigation.navigate("Form Cidade");
   }
 
+  const onPressCitiesScreen = () => {
+    navigation.navigate("Cidades");
+  }
+
   return (
     <View style={styles.container}>
+
+    <Text style={styles.intro_text}>
+      Bem-vindo ao CRUD Mundo!
+      Visualize as tabelas de países e cidades, crie, edite e exclua os dados.
+      Selecione uma das opções para começar:
+    </Text>
       
-      <View style={styles.form_container}>
-        <View>
-          <TouchableOpacity onPress={onPressCountryForm} style={styles.button}>
-            <Text style={styles.button_text}>Cadastrar país</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity onPress={onPressCityForm} style={styles.button}>
-            <Text style={styles.button_text}>Cadastrar cidade</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.button_container}>
+        <TouchableOpacity onPress={onPressCitiesScreen} style={styles.button}>
+          <Text style={styles.button_text}>Gerenciar cidades</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onPressCountryForm} style={styles.button}>
+          <Text style={styles.button_text}>Cadastrar país</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onPressCityForm} style={styles.button}>
+          <Text style={styles.button_text}>Cadastrar cidade</Text>
+        </TouchableOpacity>
       </View>
 
       <Text style={styles.paragraph}>
@@ -86,20 +95,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
   },
-  navbar: {
-    width: '100%',
-    marginTop: 0,
-    marginBottom: '30px',
-    height: 90,
-    padding: 10,
-    paddingTop: 30,
-    backgroundColor: '#3576a1',
-  },
-  title: {
-    color: 'white',
-    fontSize: 23,
-    fontWeight: 'bold',
+  intro_text: {
+    width: '90%',
     textAlign: 'center',
+    fontSize: '20px',
+    marginTop: '20px',
   },
   table_style: {
     backgroundColor: '#a5cfe8',
@@ -107,20 +107,19 @@ const styles = StyleSheet.create({
   table_header_style: {
     backgroundColor: '#88b7db',
   },
+  button_container: {
+    marginTop: '25px',
+    width: '85%',
+  },
   button: {
     width: '100%',
-    padding: '6px',
-    borderRadius: '5px',
+    padding: '9px',
+    borderRadius: '8px',
     marginBottom: '10px',
     backgroundColor: '#a5cfe8',
   },
   button_text: {
     textAlign: 'center',
-  },
-  form_container: {
-    width: '55%',
-    height: '130px',
-    marginTop: '30px',
-    display: 'flex',
+    fontSize: '18px',
   },
 });
