@@ -40,45 +40,6 @@ export default function App({ navigation }) {
           <Text style={styles.button_text}>Cadastrar cidade</Text>
         </TouchableOpacity>
       </View>
-
-      <Text style={styles.paragraph}>
-        Tabela de países
-      </Text>
-
-      <DataTable style={styles.table_style}>
-        <DataTable.Header style={styles.table_header_style}>
-          <DataTable.Title>ID</DataTable.Title>
-          <DataTable.Title numeric>Nome</DataTable.Title>
-          <DataTable.Title numeric>Habitantes</DataTable.Title>
-          <DataTable.Title numeric>Continente</DataTable.Title>
-        </DataTable.Header>
-
-        <DataTable.Row>
-          <DataTable.Cell>0</DataTable.Cell>
-          <DataTable.Cell numeric>Botsuana</DataTable.Cell>
-          <DataTable.Cell numeric>78</DataTable.Cell>
-          <DataTable.Cell numeric>África</DataTable.Cell>
-        </DataTable.Row>
-      </DataTable>
-
-      <Text style={styles.paragraph}>
-        Tabela de cidades
-      </Text>
-      <DataTable style={styles.table_style}>
-        <DataTable.Header style={styles.table_header_style}>
-          <DataTable.Title>ID</DataTable.Title>
-          <DataTable.Title numeric>Nome</DataTable.Title>
-          <DataTable.Title numeric>Habitantes</DataTable.Title>
-          <DataTable.Title numeric>id_pais</DataTable.Title>
-        </DataTable.Header>
-
-        <DataTable.Row>
-          <DataTable.Cell>0</DataTable.Cell>
-          <DataTable.Cell numeric>hey</DataTable.Cell>
-          <DataTable.Cell numeric>40594</DataTable.Cell>
-          <DataTable.Cell numeric>0</DataTable.Cell>
-        </DataTable.Row>
-      </DataTable>
     </View>
   );
 }

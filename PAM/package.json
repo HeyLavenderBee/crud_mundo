@@ -13,21 +13,21 @@
     "react": "19.1.0",
     "react-native": "0.81.5",
     "primereact": "*",
+    "expo-crypto": "~15.0.7",
     "@types/react": "19.0.0",
     "@mui/material": "*",
     "@emotion/react": "11.5.0",
+    "expo-constants": "~18.0.10",
     "@emotion/styled": "11.3.0",
     "@expo/vector-icons": "^15.0.3",
     "@pigment-css/react": "0.0.30",
     "react-native-paper": "4.9.2",
     "react-native-screens": "~4.16.0",
+    "@supabase/supabase-js": "*",
     "@react-navigation/native": "*",
     "@mui/material-pigment-css": "7.3.2",
     "@react-navigation/native-stack": "*",
-    "react-native-safe-area-context": "~5.6.0",
-    "expo-crypto": "~15.0.7",
-    "@supabase/supabase-js": "*",
-    "expo-constants": "~18.0.10"
+    "react-native-safe-area-context": "~5.6.0"
   },
   "private": true
 }

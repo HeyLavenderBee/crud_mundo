@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CrudScreen from "./screens/crud";
 import CountryFormScreen from "./screens/form";
 import CityFormScreen from "./screens/city_form";
+import CountriesScreen from "./screens/countries_screen";
 import CitiesScreen from "./screens/cities_screen";
 import LoginScreen from "./screens/login_screen";
 import RegisterScreen from "./screens/register_screen";
@@ -18,12 +19,14 @@ export default function App() {
         headerTintColor: "#fff",
         headerTitleStyle: { fontWeight: "bold" },
       }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
+        {/* O primeiro da lista é o que inicia */}
         <Stack.Screen name="Crud Mundo" component={CrudScreen} />
-        <Stack.Screen name="Form País" component={CountryFormScreen} />
         <Stack.Screen name="Cidades" component={CitiesScreen} />
-        <Stack.Screen name="Form Cidade" component={CityFormScreen} />
+        <Stack.Screen name="Países" component={CountriesScreen} />
         <Stack.Screen name="Cadastro" component={RegisterScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Form País" component={CountryFormScreen} />
+        <Stack.Screen name="Form Cidade" component={CityFormScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

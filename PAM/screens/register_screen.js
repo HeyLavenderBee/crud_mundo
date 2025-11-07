@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Picker } from 'rea
 import { useState } from 'react';
 import ('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 import * as Crypto from "expo-crypto";
+import { supabase } from '../api/supabase_client';
 
 
 export default function App({ navigation }) {
@@ -17,6 +18,7 @@ export default function App({ navigation }) {
   }
 
   //constantes de email e senha, definidas como string
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -32,6 +34,13 @@ export default function App({ navigation }) {
     <View style={styles.container}>
       <View style={styles.form_container}>
         <Text style={styles.title}>Faça seu cadastro</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite seu nome"
+          placeholderTextColor="#C0C0C0"
+          value={name}
+          onChangeText={setName}
+        />
         <TextInput
           style={styles.input}
           placeholder="Digite seu email"
