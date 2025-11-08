@@ -12,16 +12,18 @@ export default function CitiesScreen() {
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(true);
-  const [cities, setCities] = useState([]); // dados vindos do supabase (cada item tem id_cidade, nome, habitantes, paises)
-  const [selectedCity, setSelectedCity] = useState(""); // string vazia significa "nenhum selecionado"
-  const [cityOptions, setCityOptions] = useState([]); // array para o Picker: { label, value, info }
-  const [cityInfo, setCityInfo] = useState(null); // objeto da cidade selecionada (ou null)
+  const [cities, setCities] = useState([]); //dados vindos do supabase das cidades
+  const [selectedCity, setSelectedCity] = useState(""); //valor da cidade selecionada
+  const [cityOptions, setCityOptions] = useState([]); //array para o picker
+  const [cityInfo, setCityInfo] = useState(null); //objeto da cidade selecionada
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    //função de pegar as cidades do banco de dados (tanto para o seletor, quanto para a tabela)
     const fetchCities = async () => {
       try {
-        setLoading(true);
+        setLoading(true); //ativa o estado de carregando
+        //faz o select do banco de dados
         const { data, error } = await supabase
           .from("cidades")
           .select(`
@@ -32,9 +34,11 @@ export default function CitiesScreen() {
             paises ( nome )
           `);
 
+        //mostra isso caso tiver um erro (geralmente do banco de dados)
         if (error) {
           console.error("Erro ao buscar cidades:", error);
           Alert.alert("Erro", "Não foi possível buscar as cidades.");
+          //limpa todas as constantes só por precaução
           setCities([]);
           setCityOptions([]);
           setCityInfo(null);
@@ -42,29 +46,32 @@ export default function CitiesScreen() {
           return;
         }
 
-        const options = (data || []).map((cidade) => ({
+
+        const options = (data).map((cidade) => ({
           label: cidade.nome,
           value: String(cidade.id_cidade),
           info: cidade,
         }));
 
-        const formattedCities = (data || []).map(cidade => ({
-          ...cidade,
-          pais: cidade.paises?.nome || "—"
-        }));
+        const formattedCities = (data).map(cidade => ({//o .map percorre por todas as cidades e retorna um array
+          ...cidade, pais: cidade.paises?.nome //guarda o país relacionado no objeto, e o '...' é para pegar todos os valores da cidade
+        })); //cada um desses vira um novo objeto
 
         setCities(formattedCities);
         setCityOptions(options);
-      } finally {
+      }
+      //no final, para de mostrar o loading
+      finally {
         setLoading(false);
       }
     };
 
-    fetchCities();
+    fetchCities(); //roda a funçõa de em si (antes só estava definindo ela)
   }, []);
 
+  //função para atualizar a cidade selecionada do picker
   const changeSelected = (value) => {
-    setSelectedCity(value); // mantém o ID como string
+    setSelectedCity(value);//mantém o ID como string
     if (!value) {
       setCityInfo(null);
       return;
@@ -73,49 +80,55 @@ export default function CitiesScreen() {
     setCityInfo(found ? found.info : null);
   };
 
+  //funçõa do botão de adicionar cidade
   const addCity = () => {
     navigation.navigate("Form Cidade");
   };
 
+  //função de editar a cidade
   const editCity = () => {
+    //avisa se não tiver cidade selecionada (mesmo com o botão desativado, só por segurança)
     if (!selectedCity) {
       Alert.alert("Atenção", "Selecione uma cidade primeiro.");
       return;
     }
+    //caso tenha, vai para a tela de editar cidade, levando o id_cidade para aquela tela
     const id_city = Number(selectedCity);
     navigation.navigate("Editar Cidade", { id: id_city });
   };
 
   const deleteCity = (id) => {
-    // id esperado numérico
+    //se não tiver um id, cancela a ação (mesmo o botão estando desativado, só por segurança)
     if (!id) return;
+
+    //caso tenha recebido um id, faz a confirmação
     Alert.alert("Confirmação", "Tem certeza que deseja excluir esta cidade?", [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Excluir",
+      {text: "Cancelar", style: "cancel" }, //caso ação seja cancelada, só valta
+      //a partir daqui é para deletar a cidade
+      {text: "Excluir",
         style: "destructive",
         onPress: async () => {
           try {
             setDeleting(true);
-            // remove no banco
+            //código sql para remover no banco
             const { error } = await supabase
               .from("cidades")
               .delete()
               .eq("id_cidade", id);
-
+            
+            //mostra isso caso tenha algum erro (geralmente do banco de dados)
             if (error) {
               console.error("Erro ao deletar cidade:", error);
               Alert.alert("Erro", "Não foi possível excluir a cidade.");
               return;
             }
 
-            // atualiza estado local removendo a cidade
+            //atualiza a tela para remover a cidade
             setCities((prev) => prev.filter((c) => c.id_cidade !== id));
-
-            // atualiza também as opções do picker
+            //atualiza também as opções do picker
             setCityOptions((prev) => prev.filter((opt) => Number(opt.value) !== id));
 
-            // limpa seleção se a cidade removida era a selecionada
+            //limpa seleção se a cidade removida era a selecionada
             if (String(id) === selectedCity) {
               setSelectedCity("");
               setCityInfo(null);
@@ -123,6 +136,7 @@ export default function CitiesScreen() {
 
             Alert.alert("Sucesso", "Cidade excluída.");
           }
+          //caso algum erro for detectado
           catch (err){
             console.error(err);
             Alert.alert("Erro", "Não foi possível excluir a cidade.");
@@ -135,6 +149,8 @@ export default function CitiesScreen() {
     ]);
   };
 
+
+  //carregamento
   if (loading) {
     return (
       <View style={styles.center}>
@@ -151,6 +167,7 @@ export default function CitiesScreen() {
       <Text style={styles.search_title}>Procure por uma cidade</Text>
       
       <View style={styles.picker_container}>
+        {/* para selecionar uma cidade específica */}
         <Picker
           selectedValue={selectedCity}
           onValueChange={changeSelected}
@@ -159,27 +176,29 @@ export default function CitiesScreen() {
           <Picker.Item label="Selecione..." value="" />
           {cityOptions.map((option) => (
             <Picker.Item
-              key={option.value}
-              label={option.label}
-              value={option.value}
+              key={option.value} //a chave que vai ser passada caso a cidade seja editada ou deletada
+              label={option.label} //o nome que aparece no input
+              value={option.value} //o valor
             />
           ))}
         </Picker>
       </View>
 
       <View style={styles.result_container}>
-        {cityInfo ? (
+        {/*caso cityInfo estiver definido, mostra o primeiro, senão, mostra o depois dos dois pontos*/}
+        {cityInfo ? ( 
           <View style={styles.result_container}>
             <Text style={styles.result_container_text}>Habitantes: {cityInfo.habitantes}</Text>
             <Text style={styles.result_container_text}>País: {cityInfo.paises?.nome || "—"}</Text>
           </View>
-        ) : (
+        ) :
           <View style={styles.result_placeholder}>
             <Text>Selecione uma cidade para ver os detalhes.</Text>
           </View>
-        )}
+        }
       </View>
 
+      {/*botões para editar e excluir as cidades*/}
       <View style={styles.action_buttons_container}>
         <TouchableOpacity
           onPress={editCity}
@@ -207,8 +226,9 @@ export default function CitiesScreen() {
 
     <View style={styles.table_container}>
       <Text style={styles.table_title}>Tabela de cidades</Text>
+      {/* tabela de cidades */}
       <ScrollView showsVerticalScrollIndicator={false} style={styles.table_scroll}>
-        <DataTable style={styles.table_inner}>
+        <DataTable>
           <DataTable.Header style={styles.table_header}>
             <DataTable.Title><Text style={styles.table_header_text}>Nome</Text></DataTable.Title>
             <DataTable.Title><Text style={styles.table_header_text}>Habitantes</Text></DataTable.Title>
@@ -240,7 +260,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "90%",
     height: 300,
-    backgroundColor: "#a5cfe8",
+    backgroundColor: "#7cb0d9",
     borderRadius: 7,
     alignItems: "center",
     justifyContent: "center",
@@ -251,14 +271,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 10,
-    color: "#2b2b2b",
+    color: '#2b2382',
   },
   linkContainer: {
     marginVertical: 20,
     width: "70%",
   },
   formLink: {
-    backgroundColor: "#78a7db",
+    backgroundColor: "#5e7bcc",
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -270,8 +290,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   table_container: {
+    flex: 1,
     width: "100%",
     backgroundColor: "#a5cfe8",
+  },
+  table_scroll: {
+    paddingBottom: 30,
   },
   table_title: {
     fontSize: 18,
@@ -303,7 +327,7 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 5,
     backgroundColor: "#fff",
-    marginBottom: 15,
+    marginBottom: 10,
   },
   country_select: {
     width: "100%",
@@ -311,12 +335,14 @@ const styles = StyleSheet.create({
   result_container: {
     width: "90%",
     alignSelf: 'center',
-    padding: 8,
+    padding: 3,
     borderRadius: 7,
     backgroundColor: "transparent",
     alignItems: "flex-start",
   },
   result_container_text: {
+    textAlign: 'center',
+    alignSelf: 'center',
     fontSize: 18,
     color: "#2b2b2b",
     marginVertical: 2,
@@ -329,12 +355,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   action_button: {
-    backgroundColor: "#78a7db",
+    backgroundColor: "#5e7bcc",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: "center",
   },
+  /* para o botão desativado */
   disabledButton: {
     opacity: 0.5,
   },
@@ -342,6 +369,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  center: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });
 

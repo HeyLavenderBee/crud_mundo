@@ -7,7 +7,7 @@ import { DataTable } from 'react-native-paper';
 //https://primereact.org/datatable/
 //https://mui.com/material-ui/react-table/
 
-export default function App({ navigation }) {
+export default function Crud({ navigation }) {
   const onPressCountryForm = () => {
     navigation.navigate("Form País");
   }
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
   welcome_label: {
     width: '90%',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 22,
+    color: '#2b2382',
     fontWeight: 'bold',
     marginTop: 20,
   },
@@ -81,13 +82,15 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    padding: 9,
+    padding: 11,
     borderRadius: 8,
     marginBottom: 10,
-    backgroundColor: '#a5cfe8',
+    backgroundColor: '#7cb0d9',
   },
   button_text: {
     textAlign: 'center',
     fontSize: 18,
+    color: '#232f7d',
+    fontWeight: 'bold',
   },
 });

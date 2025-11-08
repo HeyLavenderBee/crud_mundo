@@ -1,49 +1,24 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = 'https://yblzpzdqxvjrqdlfiwtf.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlibHpwemRxeHZqcnFkbGZpd3RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI0MzUwNDcsImV4cCI6MjA3ODAxMTA0N30.k0m9ar3DL-VY6iKlr3_riSMUF69oFdpLUIPvbuLj9v4';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export default function CityForm({ navigation }) {
-  const [cityName, setCityName] = useState("");
-  const [cityPopulation, setCityPopulation] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [countries, setCountries] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function CountryForm({ navigation }) {
+  const [countryName, setCountryName] = useState("");
+  const [language, setLanguage] = useState("");
+  const [countryPopulation, setCountryPopulation] = useState("");
+  const [selectedContinent, setSelectedContinent] = useState("");
   const [saving, setSaving] = useState(false);
 
-  //carrega países
-  useEffect(() => {
-   const fetchCountries = async () => {
-     try {
-       setLoading(true);
-       const { data, error } = await supabase.from("paises").select("id_pais, nome");
-
-       if (error) throw error;
-       const formattedCountries = (data || []).map((pais) => ({
-         label: pais.nome, 
-         value: String(pais.id_pais),
-        }));
-        
-        setCountries(formattedCountries);
-      }
-      catch (err) {
-        console.error(err);
-        Alert.alert("Erro", "Não foi possível carregar os países.");
-      }
-      finally {
-        setLoading(false);
-      }
-      };
-    fetchCountries();
-  }, []);
+  const continents = ["África", "América", "Ásia", "Europa", "Oceania"]; //lista de continentes
 
   const onPressSubmit = async () => {
     //vè se as variáveis dos inputs estão vazias
     //se estiver vazio, transforma em false, senão, em true, e se baseia nisso para checar
-    if (!cityName.trim() || !cityPopulation.trim() || !selectedCountry) { //já o trim tira espaços antes e no final da palavra
+    if (!countryName.trim() || !countryPopulation.trim() || !selectedContinent || !language.trim()) { //já o trim tira espaços antes e no final da palavra
       Alert.alert("Atenção", "Preencha todos os campos antes de cadastrar.");
       return;
     }
@@ -51,71 +26,67 @@ export default function CityForm({ navigation }) {
     try {
       setSaving(true);
 
+      //consulta sql para ver se tem um país com o mesmo nome
       const { data: existing, error: checkError } = await supabase
-        .from("cidades")
-        .select("id_cidade")
-        .eq("id_pais", selectedCountry)
-        .ilike("nome", cityName.trim()); //o trim é usado aqui, para não ter espaços desnecessários
+        .from("paises")
+        .select("id_pais")
+        .ilike("nome", countryName.trim()); //consulta ignorando caixa alta, para ver se tem um país com o mesmo nome
 
       if (checkError) throw checkError;
 
+      //se existir
       if (existing && existing.length > 0) {
-        Alert.alert("Aviso", "Já existe uma cidade com esse nome neste país.");
+        Alert.alert("Aviso", "Já existe um país com esse nome");
         return;
       }
 
-      const { error: insertError } = await supabase.from("cidades").insert([
+      //código sql para inserir país
+      const { error: insertError } = await supabase.from("paises").insert([
         {
-          nome: cityName.trim(),
-          habitantes: Number(cityPopulation),
-          id_pais: Number(selectedCountry),
+          nome: countryName.trim(),
+          habitantes: Number(countryPopulation), //transforma em número
+          idioma: language.trim(),
+          continente: selectedContinent
         },
       ]);
 
       if (insertError) throw insertError;
 
-      Alert.alert("Sucesso", "Cidade cadastrada com sucesso!", [
+      //alerta de país cadastrado com sucesso
+      Alert.alert("Sucesso", "País cadastrado com sucesso!", [
         {
           text: "OK",
-          onPress: () => navigation.navigate("Cidades"),
+          onPress: () => navigation.navigate("Países"),
         },
       ]);
 
       //Limpa campos
-      setCityName("");
-      setCityPopulation("");
-      setSelectedCountry("");
+      setCountryName("");
+      setCountryPopulation("");
+      setSelectedContinent("");
+      setLanguage("");
     }
     catch (err) {
       console.error(err);
-      Alert.alert("Erro", "Não foi possível cadastrar a cidade.");
+      Alert.alert("Erro", "Não foi possível cadastrar o país.");
     }
     finally {
-      setSaving(false);
+      setSaving(false); //sai do estado de salvamento
     }
   };
-
-  if (loading) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" />
-        <Text>Carregando países...</Text>
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
       <View style={styles.form_container}>
-        <Text style={styles.title}>Cadastrar cidade</Text>
+        <Text style={styles.title}>Cadastrar país</Text>
 
         <TextInput
           style={styles.input}
-          placeholder="Digite o nome da cidade"
+          placeholder="Digite o nome do país"
           placeholderTextColor="#C0C0C0"
-          value={cityName}
+          value={countryName}
           maxLength={160}
-          onChangeText={setCityName}
+          onChangeText={setCountryName}
         />
 
         <TextInput
@@ -124,30 +95,39 @@ export default function CityForm({ navigation }) {
           placeholderTextColor="#C0C0C0"
           keyboardType="numeric"
           maxLength={160}
-          value={cityPopulation}
-          onChangeText={setCityPopulation}
+          value={countryPopulation}
+          onChangeText={setCountryPopulation}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Digite o idioma"
+          placeholderTextColor="#C0C0C0"
+          maxLength={160}
+          value={language}
+          onChangeText={setLanguage}
         />
 
         <View style={styles.select_container}>
           <Picker
-            selectedValue={selectedCountry}
-            onValueChange={(value) => setSelectedCountry(value)}
+            selectedValue={selectedContinent}
+            onValueChange={(value) => setSelectedContinent(value)}
             style={styles.select_input}
           >
-            <Picker.Item label="Selecione um país..." value={""} />
-            {countries.map((p) => (
-              <Picker.Item key={p.value} label={p.label} value={p.value} />
+            <Picker.Item label="Selecione um continente..." value={""} />
+            {continents.map((c) => (
+              <Picker.Item key={c} label={c} value={c} />
             ))}
           </Picker>
         </View>
 
         <TouchableOpacity
           onPress={onPressSubmit}
-          style={[styles.button, saving && styles.disabledButton]}
+          style={styles.button}
           disabled={saving}
         >
           <Text style={styles.button_text}>
-            Cadastrar cidade
+            Cadastrar país
           </Text>
         </TouchableOpacity>
       </View>
@@ -162,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#e1e4e6',
   },
-   title: {
+  title: {
     color: '#35558c',
     fontSize: 23,
     fontWeight: 'bold',
@@ -171,7 +151,7 @@ const styles = StyleSheet.create({
   },
   form_container: {
     width: '80%',
-    height: 290,
+    height: 343,
     padding: 14,
     borderRadius: 8,
     marginTop: 30,
@@ -199,9 +179,13 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: 'center',
     width: 'fit-content',
-    padding: 5,
+    padding: 8,
     borderRadius: 4,
     backgroundColor: '#78a7db',
+  },
+  button_text: {
+    color: 'white',
+    fontWeight: 'bold',
   },
   center: {
     flex: 1,
