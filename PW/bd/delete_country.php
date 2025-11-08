@@ -1,13 +1,13 @@
 <?php
-    include '../bd/connection.php'; // seu arquivo de conexão
+    include 'connection.php';
 
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
 
-        $sql = "DELETE FROM cidades WHERE id_cidade = $id";
+        $sql = "DELETE FROM paises WHERE id_pais = $id";
 
         if ($conn->query($sql) === TRUE) {
-            echo "<script> alert('Cidade excluída com sucesso!'); window.location.href='../index.php'; </script>";
+            echo "<script> alert('País e cidades relacionadas excluídos com sucesso!'); window.location.href='../countries_page.php'; </script>";
         } else {
             echo "Erro ao excluir: " . $conn->error;
         }

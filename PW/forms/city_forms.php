@@ -54,10 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <!-- Cabeçalho -->
-    <div class="header">Formulário de cidades</div>
+    <div class="header">CRUD Mundo</div>
     <div class="main">
         <a href="../index.php">Voltar</a>
-		<h3>Cadastre uma cidade</h3><br>
+		<div class="form-title">Cadastrar cidade</div><br>
         <div class="forms-row">
 			<!-- Formulário cidades -->
 			<form method="post" class="form-content">

@@ -27,14 +27,14 @@
         </div>
         <br><br>
         <div class="forms-link-container">
-            <a href="forms/city_forms.php" class="form-link">Adicionar cidade</a>
-            <a href="forms/country_forms.php" class="form-link">Adicionar país</a>
-        </div>
-        <div class="forms-link-container">
             <a href="countries_page.php" class="form-link">Gerenciar países</a>
             <a href="cities_page.php" class="form-link">Gerenciar cidades</a>
-            
         </div>
+        <div class="forms-link-container">
+            <a href="forms/country_forms.php" class="form-link">Adicionar país</a>
+            <a href="forms/city_forms.php" class="form-link">Adicionar cidade</a>
+        </div>
+        
     
 
     </div>

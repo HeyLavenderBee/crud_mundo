@@ -9,6 +9,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Gerenciamento de países</title>
 </head>
@@ -52,7 +55,7 @@
                             while ($row = $result->fetch_assoc()) {
                                 $country_name_english = $row['nome_ingles']; //pega o nome em inglês para a API
                                 $country_name_portuguese = $row['nome'];
-                                echo "<h4>".$row['id_pais']." - ".$row['nome']."</h4>";
+                                echo "<h3>".$row['id_pais']." - ".$row['nome']."</h3>";
                                 echo "<strong>Habitantes</strong>: ".$row['habitantes']."<br>";
                                 echo "<strong>Continente</strong>: " . $row['continente'];
                                 echo "<br><strong>Idioma</strong>: ".$row['idioma']."<br><br>"; //separação extra (para aparecer as informações da API depois)
@@ -103,7 +106,6 @@
                             
                             if (is_array($data) && isset($data['message'])) {
                                 echo "<br>";
-                                //echo "Erro da API ({$httpCode}): " . htmlspecialchars($data['message']) . ". Verifique se o nome '{$countryName}' é reconhecido.<br>";
                             } else {
                                 echo "Erro na requisição. Código HTTP: {$httpCode}.<br>";
                             }
@@ -175,7 +177,7 @@
                         //os botões de ação para editar e excluir
                         echo "<th>
                             <a href='forms/update_country.php?id=" . $row["id_pais"] . "' class='table-button'>Editar</a>
-                            <a href='forms/delete_country.php?id=" . $row["id_pais"] . "' class='table-button' onclick='return confirm(\"Tem certeza que quer excluir o país? Todas as cidades relacionadas a ele serão excluídas também\")'>Excluir</a>
+                            <a href='bd/delete_country.php?id=" . $row["id_pais"] . "' class='table-button' onclick='return confirm(\"Tem certeza que quer excluir o país? Todas as cidades relacionadas a ele serão excluídas também\")'>Excluir</a>
                         </th>";
                         echo "</tr>";
                     }

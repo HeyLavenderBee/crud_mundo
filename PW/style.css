@@ -6,6 +6,7 @@
 
 :root {
     --lightblue: rgb(97, 177, 206);
+    --darkblue: rgb(38, 49, 98);
 }
 
 .dm-serif-text-regular {
@@ -75,7 +76,7 @@ font-style: italic;
 
 .form-content{
     width: 320px;
-    height: 350px;
+    height: 370px;
     padding: 19px;
     display: flex;
     flex-direction: column;
@@ -84,6 +85,27 @@ font-style: italic;
     border-radius: 14px;
     margin-bottom: 50px;
     padding-bottom: 40px;
+}
+
+.update-form-content{
+    width: 320px;
+    height: 280px;
+    padding: 19px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--lightblue);
+    border-radius: 14px;
+    margin-bottom: 50px;
+    padding-bottom: 40px;
+}
+
+.form-title{
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    background-color: #00000000;
 }
 
 .form-input-title{
@@ -130,27 +152,27 @@ font-style: italic;
     width: 80%;
     border-collapse: collapse;
     background-color: white;
-    border: 1px solid #999;
+    border: 1px solid var(--darkblue);
     margin-bottom: 30px;
 }
 
 .table-content td {
-    border: 1px solid #999;
+    border: 1px solid var(--darkblue);
     padding: 8px;
     text-align: left;
     background-color: white;
 }
 
 .table-content th {
-	border: 1px solid #999;
+	border: 1px solid var(--darkblue);
     padding: 8px;
     text-align: left;
-    background-color: #eafafd;
+    background-color: var(--lightblue);
 }
 
 .table-button{
-	text-decoration: none;
-	color: #1276b5;
+	text-decoration: underline;
+	color: #f4f6fc;
 	margin-right: 10px;
 	background-color: #00000000;
 }
@@ -172,8 +194,19 @@ th{
 }
 
 .search-container{
-    width: 50%;
-    height: 300px;
+    width: 40%;
+    height: 350px;
+    padding: 16px;
+    padding-top: 25px;
+    border-radius: 12px;
+    background-color: var(--lightblue);
+    margin-bottom: 20px;
+}
+
+/*uma versão menor, para as cidades, pq tem pouca informação nelas*/
+.cities-search-container{
+    width: 40%;
+    height: 250px;
     padding: 16px;
     padding-top: 25px;
     border-radius: 12px;
@@ -189,15 +222,28 @@ th{
     background-color: #00000000;
 }
 
+.cities-search-container h3{
+    color: white;
+    text-align: center;
+    font-size: 27px;
+    font-weight: 600;
+    background-color: #00000000;
+}
+
 /*por algum motivo os itens produzem cor de fundo automaticamente neles, então isso serve para tirar*/
 .search-container h4,p, strong{
     background-color: #00000000;
     font-size: 18px;
 }
 
+.cities-search-container h4,p, strong{
+    background-color: #00000000;
+    font-size: 18px;
+}
+
 .search-form{
     margin-top: 10px;
-    width: 30%;
+    width: 35%;
     padding: 10px;
     float: left;
     display: flex;
@@ -209,12 +255,24 @@ th{
 .search-result-container{
     margin-top: 20px;
     width: 50%;
-    height: 65%;
+    height: 69%;
     padding: 15px;
     padding-left: 20px;
     margin-right: 25px;
     float: right;
-    border-radius: 2px;
+    border-radius: 4px;
+    background-color: #8dc2e5;
+}
+
+.cities-search-result-container{
+    margin-top: 20px;
+    width: 50%;
+    height: 60%;
+    padding: 15px;
+    padding-left: 20px;
+    margin-right: 25px;
+    float: right;
+    border-radius: 4px;
     background-color: #8dc2e5;
 }
 
@@ -224,6 +282,14 @@ th{
 }
 
 .search-result-container h3{
+    color: rgb(14, 79, 155);
+    font-size: 23px;
+    font-weight: 600;
+    background-color: #00000000;
+    margin-bottom: 10px;
+}
+
+.cities-search-result-container h3{
     color: rgb(14, 79, 155);
     font-size: 23px;
     font-weight: 600;
@@ -241,6 +307,20 @@ th{
         text-align: center;
     }
 
+    .form-content{
+        align-self: center;
+        width: 82%;
+        height: auto;
+        margin-bottom: 40px;
+    }
+
+    .update-form-content{
+        align-self: center;
+        width: 82%;
+        height: auto;
+        margin-bottom: 40px;
+    }
+
     .forms-link-container{
         width: 70%;
         height: 42px;
@@ -253,17 +333,24 @@ th{
     }
 
     .search-container{
+        width: 90%;
         flex-direction: column;
+        align-items: center;
+        height: 500px;
     }
 
     .search-form{
+        align-items: center;
         width: 100%;
         float: none;
     }
 
     .search-result-container{
         width: 90%;
+        height: 50%;
         float: none;
     }
+
+
 }
 

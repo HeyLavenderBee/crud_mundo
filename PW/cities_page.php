@@ -8,6 +8,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Gerenciamento de cidades</title>
 </head>
@@ -15,7 +18,7 @@
     <div class="header">Gerenciamento de cidades</div>
     <div class="main">
         <a href="index.php" class="back-button">Voltar</a>
-        <div class="search-container">
+        <div class="cities-search-container">
             <h3>Procurar Cidade</h3>
             <form method="GET" class="search-form">
                 <select class="select-input" id="search" name="search">
@@ -27,11 +30,10 @@
 						echo "<option value='" . $row['nome'] . "'>" . $row['nome'] . "</option>";
 					}
 					?>
-					<option value="1">Brasil</option>
 				</select>
                 <input class="submit-input" type="submit" value="Buscar">
             </form>
-            <div class="search-result-container">
+            <div class="cities-search-result-container">
                 <?php
                     //verifica se o usuário enviou uma busca
                     if (isset($_GET['search']) && !empty($_GET['search'])) {
@@ -104,7 +106,7 @@
                         //botões de ação para editar e excluir cada cidade
                         echo "<th>
                             <a href='forms/update_city.php?id=" . $row["id_cidade"] . "' class='table-button'>Editar</a>
-                            <a href='forms/delete_city.php?id=" . $row["id_cidade"] . "' class='table-button' onclick='return confirm(\"Tem certeza que quer excluir?\")'>Excluir</a>
+                            <a href='bd/delete_city.php?id=" . $row["id_cidade"] . "' class='table-button' onclick='return confirm(\"Tem certeza que quer excluir?\")'>Excluir</a>
                         </th>";
                         echo "</tr>";
                     }
