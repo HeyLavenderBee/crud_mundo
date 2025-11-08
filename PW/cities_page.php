@@ -14,7 +14,66 @@
 <body>
     <div class="header">Gerenciamento de cidades</div>
     <div class="main">
-        <a href="../index.php" class="back-button">Voltar</a>
+        <a href="index.php" class="back-button">Voltar</a>
+        <div class="search-container">
+            <h3>Procurar Cidade</h3>
+            <form method="GET" class="search-form">
+                <select class="select-input" id="search" name="search">
+					<option value="">Escolha uma cidade</option>
+					<?php
+					$sql = "SELECT * FROM cidades;";
+					$result = $conn->query($sql);
+					while ($row = $result->fetch_assoc()) {
+						echo "<option value='" . $row['nome'] . "'>" . $row['nome'] . "</option>";
+					}
+					?>
+					<option value="1">Brasil</option>
+				</select>
+                <input class="submit-input" type="submit" value="Buscar">
+            </form>
+            <div class="search-result-container">
+                <?php
+                    //verifica se o usuário enviou uma busca
+                    if (isset($_GET['search']) && !empty($_GET['search'])) {
+                        $search_word = $_GET['search'];
+
+                        //prepara a consulta SQL para buscar o país pelo nome
+                        $sql = "SELECT 
+                                    cidades.id_cidade, 
+                                    cidades.nome AS cidade_nome, 
+                                    cidades.habitantes AS cidade_habitantes, 
+                                    paises.nome AS pais_nome
+                                FROM cidades
+                                INNER JOIN paises 
+                                    ON cidades.id_pais = paises.id_pais
+                                WHERE cidades.nome LIKE ?;";
+
+                        $stmt = $conn->prepare($sql);
+                        $like = "%" . $search_word . "%";
+                        $stmt->bind_param("s", $like);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        //verifica se encontrou algum país
+                        if ($result->num_rows > 0) {
+                            //exibe os países encontrados
+                            echo "<div class='search-container-text'>";
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<h3>".$row['id_cidade']." - ".$row['cidade_nome']."</h3>";
+                                echo "<strong>Habitantes</strong>: ".$row['cidade_habitantes']."<br>";
+                                echo "<strong>País</strong>: ". $row['pais_nome']."<br>";
+                            }
+                        } else {
+                            echo "<h4>Nenhuma cidade encontrada com o nome '" . $search_word. "'</h4>";
+                            echo "<br>Caso queira adicionar uma nova cidade, clique no botão abaixo";
+                        }
+                        echo "</div>";
+                        $stmt->close();
+                    }
+                ?>
+            </div>
+        </div>
+
         <!-- Container com link do form de adicionar cidades -->
         <div class="forms-link-container">
             <a href="forms/city_forms.php" class="form-link">Adicionar cidade</a>

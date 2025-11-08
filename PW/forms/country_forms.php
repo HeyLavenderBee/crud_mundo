@@ -49,8 +49,8 @@
 </head>
 <body>
 	<div class="header">Formulário de cidades</div>
-    <a href="../index.php" class="back-button">Voltar</a>
     <div class="main">
+        <a href="../index.php" class="back-button">Voltar</a>
 		<h3>Forms país</h3><br>
 		<div class="forms-row">
 

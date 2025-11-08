@@ -1,92 +1,97 @@
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ActivityIndicator, Alert } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Alert, ActivityIndicator, TextInput } from "react-native";
+import { Picker } from '@react-native-picker/picker';
+import { DataTable } from "react-native-paper"; // biblioteca do seu link
+import { useNavigation } from "@react-navigation/native";
 import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = 'https://yblzpzdqxvjrqdlfiwtf.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlibHpwemRxeHZqcnFkbGZpd3RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI0MzUwNDcsImV4cCI6MjA3ODAxMTA0N30.k0m9ar3DL-VY6iKlr3_riSMUF69oFdpLUIPvbuLj9v4';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export default function FormCidade({ navigation }) {
-  const [cityName, setCityName] = useState("");
-  const [cityPopulation, setCityPopulation] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [countries, setCountries] = useState([]);
+export default function UpdateCitiesScreen({ route, navigation }) {
+  //pega os parametros da tela anterior
+  const { id } = route.params;
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [cityName, setCityName] = useState("");
+  const [cityPopulation, setCityPopulation] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [countries, setCountries] = useState([]);
 
-  //carrega países
+  // Carrega os países
   useEffect(() => {
-   const fetchCountries = async () => {
-     try {
-       setLoading(true);
-       const { data, error } = await supabase.from("paises").select("id_pais, nome");
+    const fetchCountries = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("paises")
+          .select("id_pais, nome");
+        if (error) throw error;
+        setCountries(data);
+      }
+      catch (err){
+        Alert.alert("Erro", "Não foi possível carregar os países.");
+      }
+    };
 
-       if (error) throw error;
-       const formattedCountries = (data || []).map((pais) => ({
-         label: pais.nome, 
-         value: String(pais.id_pais),
-        }));
-        
-        setCountries(formattedCountries);
+    fetchCountries();
+  }, []);
+
+  // Carrega os dados da cidade específica
+  useEffect(() => {
+    const fetchCity = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from("cidades")
+          .select("nome, habitantes, id_pais")
+          .eq("id_cidade", id)
+          .single();
+
+        if (error) throw error;
+
+        setCityName(data.nome);
+        setCityPopulation(String(data.habitantes));
+        setSelectedCountry(String(data.id_pais));
       }
       catch (err) {
         console.error(err);
-        Alert.alert("Erro", "Não foi possível carregar os países.");
+        Alert.alert("Erro", "Não foi possível carregar os dados da cidade.");
       }
       finally {
         setLoading(false);
       }
-      };
-    fetchCountries();
-  }, []);
+    };
+    fetchCity();
+  }, [id]);
 
-  const onPressSubmit = async () => {
+  const onPressUpdate = async () => {
     if (!cityName.trim() || !cityPopulation.trim() || !selectedCountry) {
-      Alert.alert("Atenção", "Preencha todos os campos antes de cadastrar.");
+      Alert.alert("Atenção", "Preencha todos os campos antes de atualizar.");
       return;
     }
 
     try {
       setSaving(true);
 
-      const { data: existing, error: checkError } = await supabase
+      const { error } = await supabase
         .from("cidades")
-        .select("id_cidade")
-        .eq("id_pais", selectedCountry)
-        .ilike("nome", cityName.trim());
-
-      if (checkError) throw checkError;
-
-      if (existing && existing.length > 0) {
-        Alert.alert("Aviso", "Já existe uma cidade com esse nome neste país.");
-        return;
-      }
-
-      const { error: insertError } = await supabase.from("cidades").insert([
-        {
+        .update({
           nome: cityName.trim(),
           habitantes: Number(cityPopulation),
           id_pais: Number(selectedCountry),
-        },
+        })
+        .eq("id_cidade", id);
+
+      if (error) throw error;
+
+      Alert.alert("Sucesso", "Cidade atualizada com sucesso!", [
+        { text: "OK", onPress: () => navigation.navigate("Cidades", {shouldRefresh: true, clearSelection: true}) },
       ]);
-
-      if (insertError) throw insertError;
-
-      Alert.alert("Sucesso", "Cidade cadastrada com sucesso!", [
-        {
-          text: "OK",
-          onPress: () => navigation.navigate("Cidades"),
-        },
-      ]);
-
-      // Limpa campos
-      setCityName("");
-      setCityPopulation("");
-      setSelectedCountry("");
     }
     catch (err) {
       console.error(err);
-      Alert.alert("Erro", "Não foi possível cadastrar a cidade.");
+      Alert.alert("Erro", "Não foi possível atualizar a cidade.");
     }
     finally {
       setSaving(false);
@@ -97,7 +102,7 @@ export default function FormCidade({ navigation }) {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" />
-        <Text>Carregando países...</Text>
+        <Text>Carregando dados da cidade...</Text>
       </View>
     );
   }
@@ -105,23 +110,19 @@ export default function FormCidade({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.form_container}>
-        <Text style={styles.title}>Formulário de Cidade</Text>
+        <Text style={styles.title}>Atualizar Cidade</Text>
 
         <TextInput
           style={styles.input}
-          placeholder="Digite o nome da cidade"
-          placeholderTextColor="#C0C0C0"
+          placeholder="Nome da cidade"
           value={cityName}
-          maxLength={160}
           onChangeText={setCityName}
         />
 
         <TextInput
           style={styles.input}
-          placeholder="Digite a população"
-          placeholderTextColor="#C0C0C0"
+          placeholder="População"
           keyboardType="numeric"
-          maxLength={160}
           value={cityPopulation}
           onChangeText={setCityPopulation}
         />
@@ -130,22 +131,22 @@ export default function FormCidade({ navigation }) {
           <Picker
             selectedValue={selectedCountry}
             onValueChange={(value) => setSelectedCountry(value)}
-            style={styles.select_input}
+            style={styles.select_container}
           >
-            <Picker.Item label="Selecione um país..." value={""} />
+            <Picker.Item label="Selecione um país..." value="" />
             {countries.map((p) => (
-              <Picker.Item key={p.value} label={p.label} value={p.value} />
+              <Picker.Item key={p.id_pais} label={p.nome} value={String(p.id_pais)} />
             ))}
           </Picker>
         </View>
 
         <TouchableOpacity
-          onPress={onPressSubmit}
+          onPress={onPressUpdate}
           style={[styles.button, saving && styles.disabledButton]}
           disabled={saving}
         >
           <Text style={styles.button_text}>
-            Cadastrar cidade
+            {saving ? "Salvando..." : "Atualizar cidade"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -191,9 +192,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     backgroundColor: '#e5ecea',
   },
-  select_input: {
-    width: '100%',
-  },
   button: {
     alignSelf: 'center',
     width: 'fit-content',
@@ -201,5 +199,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: '#78a7db',
   },
+  center: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
 });
+
+
 

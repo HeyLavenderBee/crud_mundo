@@ -1,11 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { useState } from 'react';
-import ('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-//https://callstack.github.io/react-native-paper/docs/components/DataTable/ (estou usando esse agora)
-//https://mui.com/material-ui/react-table/
-//https://primereact.org/datatable/
-//https://mui.com/material-ui/react-table/
 
 export default function App({ navigation }) {
   const [countryName, setCountryName] = useState('');

@@ -17,12 +17,12 @@
 
     <!-- Container com link do form de adicionar países -->
     <div class="main">
-        <a href="../index.php" class="back-button">Voltar</a>
+        <a href="index.php" class="back-button">Voltar</a>
         <div class="search-container">
             <h3>Procurar País</h3>
             <form method="GET" class="search-form">
                 <select class="select-input" id="search" name="search">
-					<option value="">Escolha um país para ver mais sobre</option>
+					<option value="">Escolha um país</option>
 					<?php
 					$sql = "SELECT * FROM paises;";
 					$result = $conn->query($sql);
@@ -30,7 +30,6 @@
 						echo "<option value='" . $row['nome'] . "'>" . $row['nome'] . "</option>";
 					}
 					?>
-					<option value="1">Brasil</option>
 				</select>
                 <input class="submit-input" type="submit" value="Buscar">
             </form>

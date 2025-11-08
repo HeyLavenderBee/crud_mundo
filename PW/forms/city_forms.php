@@ -55,9 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <!-- Cabeçalho -->
     <div class="header">Formulário de cidades</div>
-    <a href="../index.php">Voltar</a>
     <div class="main">
-		<h3>Forms cidade</h3><br>
+        <a href="../index.php">Voltar</a>
+		<h3>Cadastre uma cidade</h3><br>
         <div class="forms-row">
 			<!-- Formulário cidades -->
 			<form method="post" class="form-content">

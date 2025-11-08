@@ -20,16 +20,27 @@ export default function App({ navigation }) {
     navigation.navigate("Cidades");
   }
 
+  const onPressCountriesScreen = () => {
+    navigation.navigate("Países");
+  }
+
   return (
     <View style={styles.container}>
 
-    <Text style={styles.intro_text}>
+    <Text style={styles.welcome_label}>
       Bem-vindo ao CRUD Mundo!
+    </Text>
+    <Text style={styles.intro_text}>
       Visualize as tabelas de países e cidades, crie, edite e exclua os dados.
+    </Text>
+    <Text style={styles.intro_text}>
       Selecione uma das opções para começar:
     </Text>
       
       <View style={styles.button_container}>
+      <TouchableOpacity onPress={onPressCountriesScreen} style={styles.button}>
+          <Text style={styles.button_text}>Gerenciar países</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={onPressCitiesScreen} style={styles.button}>
           <Text style={styles.button_text}>Gerenciar cidades</Text>
         </TouchableOpacity>
@@ -51,36 +62,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#e1e4e6',
   },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    textAlign: 'center',
-  },
   intro_text: {
+    width: '70%',
+    textAlign: 'center',
+    fontSize: 20,
+    marginTop: 20,
+  },
+  welcome_label: {
     width: '90%',
     textAlign: 'center',
-    fontSize: '20px',
-    marginTop: '20px',
-  },
-  table_style: {
-    backgroundColor: '#a5cfe8',
-  },
-  table_header_style: {
-    backgroundColor: '#88b7db',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 20,
   },
   button_container: {
-    marginTop: '25px',
-    width: '85%',
+    marginTop: 25,
+    width: '80%',
   },
   button: {
     width: '100%',
-    padding: '9px',
-    borderRadius: '8px',
-    marginBottom: '10px',
+    padding: 9,
+    borderRadius: 8,
+    marginBottom: 10,
     backgroundColor: '#a5cfe8',
   },
   button_text: {
     textAlign: 'center',
-    fontSize: '18px',
+    fontSize: 18,
   },
 });

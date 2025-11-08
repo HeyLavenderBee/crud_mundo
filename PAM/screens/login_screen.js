@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useState } from 'react';
-import ('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 import * as Crypto from "expo-crypto";
 
 

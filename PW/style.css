@@ -5,7 +5,7 @@
 }
 
 :root {
-    --lightblue: rgb(101, 169, 194);
+    --lightblue: rgb(97, 177, 206);
 }
 
 .dm-serif-text-regular {
@@ -46,13 +46,13 @@ font-style: italic;
 }
 
 .forms-link-container{
-	width: 40%;
+	width: 35%;
 	height: 40px;
 	justify-self: center;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	gap: 8px;
-	margin-bottom: 40px;
+	margin-bottom: 52px;
 }
 
 .form-link{
@@ -60,7 +60,7 @@ font-style: italic;
 	text-align: center;
 	text-decoration: none;
 	padding: 8px;
-	background-color: lightblue;
+	background-color: rgb(146, 191, 233);
 	color: white;
 	border-radius: 7px;
 }
@@ -115,7 +115,8 @@ font-style: italic;
     font-size: 16px;
     border-radius: 5px;
     padding: 9px;
-    background-color: rgb(153, 126, 179);
+    color: white;
+    background-color: rgb(66, 112, 169);
     border: none;
 }
 
@@ -161,7 +162,7 @@ th{
 }
 
 .back-button{
-    text-decoration: none;
+    text-decoration: underline;
     font-size: 20px;
     color: rgb(38, 49, 98);
     padding: 8px;
@@ -171,19 +172,20 @@ th{
 }
 
 .search-container{
-    width: 55%;
+    width: 50%;
     height: 300px;
     padding: 16px;
     padding-top: 25px;
-    border-radius: 8px;
-    background-color: #5494bc;
+    border-radius: 12px;
+    background-color: var(--lightblue);
     margin-bottom: 20px;
 }
 
 .search-container h3{
     color: white;
     text-align: center;
-    font-size: 24px;
+    font-size: 27px;
+    font-weight: 600;
     background-color: #00000000;
 }
 
@@ -195,7 +197,7 @@ th{
 
 .search-form{
     margin-top: 10px;
-    width: 40%;
+    width: 30%;
     padding: 10px;
     float: left;
     display: flex;
@@ -212,8 +214,21 @@ th{
     padding-left: 20px;
     margin-right: 25px;
     float: right;
-    border-radius: 8px;
-    background-color: #78b2d9;
+    border-radius: 2px;
+    background-color: #8dc2e5;
+}
+
+.search-container-text{
+    text-align: center;
+    background-color:#00000000;
+}
+
+.search-result-container h3{
+    color: rgb(14, 79, 155);
+    font-size: 23px;
+    font-weight: 600;
+    background-color: #00000000;
+    margin-bottom: 10px;
 }
 
 @media only screen and (max-width: 1200px) {
