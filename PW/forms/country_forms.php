@@ -1,42 +1,6 @@
 <?php
     include("../bd/connection.php"); //inclui o arquivo de conexão com o banco de dados
     session_start();
-
-    #um condicional para quando o formulário for enviado
-    if($_SERVER["REQUEST_METHOD"]=="POST"){
-        #variáveis do formulário guardadas em outras, que vão ser usadas no insert
-        $country_name = $_POST["country_name"];
-        $country_population = $_POST["country_population"];
-        $continent = $_POST["selected_continent"];
-        $language = $_POST["language"];
-        $city_name = $_POST["city_name"];
-
-        #checa se o país já existe, pelo nome
-        $sql = "SELECT * FROM paises WHERE nome = ?;";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $country_name);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        #se for achado um país ou mais com aquele nome, vai mandar a mensagem que já existe
-        if ($result->num_rows > 0) {
-            echo "<div class='wrong-password'>Já existe um país com esse nome.</div><br><br>";
-        }
-        #senão, o país é cadastrado no banco de dados
-        else{
-            $sql = "INSERT INTO paises(nome, habitantes, continente, idioma) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssss", $country_name, $country_population, $continent, $language);
-
-            #condicionais para executar conexão com o banco de dados
-            if ($stmt->execute()) {
-                echo "País cadastrado com sucesso!";
-                header("Location: index.php");
-            } else {
-                echo "Algo deu errado por nossa parte...";
-            }
-        }
-    }   
 ?>
 
 <!DOCTYPE html>
@@ -56,9 +20,46 @@
         <a href="../index.php" class="back-button">Voltar</a>
 		<div class="form-title">Cadastrar país</div><br>
 		<div class="forms-row">
-
 			<!-- Formulário de países -->
 			<form method="post" class="form-content">
+                <?php
+                    #um condicional para quando o formulário for enviado
+                    if($_SERVER["REQUEST_METHOD"]=="POST"){
+                        #variáveis do formulário guardadas em outras, que vão ser usadas no insert
+                        $country_name = $_POST["country_name"];
+                        $country_population = $_POST["country_population"];
+                        $continent = $_POST["selected_continent"];
+                        $language = $_POST["language"];
+
+                        #checa se o país já existe, pelo nome
+                        $sql = "SELECT * FROM paises WHERE nome = ?;";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("s", $country_name);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        #se for achado um país ou mais com aquele nome, vai mandar a mensagem que já existe
+                        if ($result->num_rows > 0) {
+                            echo "<div class='error'>Já existe um país com esse nome.</div>";
+                        }
+                        #senão, o país é cadastrado no banco de dados
+                        else{
+                            $sql = "INSERT INTO paises(nome, habitantes, continente, idioma) VALUES (?, ?, ?, ?)";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("ssss", $country_name, $country_population, $continent, $language);
+
+                            #condicionais para executar conexão com o banco de dados
+                            if ($stmt->execute()) {
+                                echo "<script>";
+                                echo "alert('País cadastrado com sucesso!');";
+                                echo "window.location.href='../countries_page.php';";
+                                echo "</script>";
+                            } else {
+                                echo "Algo deu errado por nossa parte...";
+                            }
+                        }
+                    }   
+                ?>
 				<div class="form-input-title">Nome</div>
 				<input class="text-input" type="text" name="country_name" required>
 				<div class="form-input-title">Habitantes</div>
@@ -78,7 +79,7 @@
 				
 				<br>
 				<input class="submit-input" type="submit" name="submit" value="Adicionar país">
-			</form>
+            </form>
         </div>
 	</div>
 </body>

@@ -1,33 +1,5 @@
 <?php
-    include '../bd/connection.php';
-
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
-
-        $sql = "SELECT * FROM cidades WHERE id_cidade = $id";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-        } else {
-            echo "Cidade não encontrada.";
-        }
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $id = $_POST['id'];
-        $nome = $_POST['nome'];
-        $habitantes = $_POST['habitantes'];
-        $pais = $_POST['selected_country'];
-
-        $sql = "UPDATE cidades SET nome='$nome', habitantes=$habitantes, id_pais=$pais WHERE id_cidade=$id";
-
-        if ($conn->query($sql)) {
-            echo "<script>alert('Cidade atualizada com sucesso!'); window.location.href='../cities_page.php';</script>";
-        } else {
-            echo "Erro ao atualizar: " . $conn->error;
-        }
-    }
+    include("../bd/connection.php");
 ?>
 
 <!DOCTYPE html>
@@ -48,6 +20,54 @@
         <div class="form-title">Editar cidade</div><br>
         <br>
         <form method="POST" class="update-form-content">
+            <?php
+                //se o id for recebido...
+                if (isset($_GET['id'])) {
+                    $id = $_GET['id']; //coloca a variavel pra usar depois
+
+                    //código sql
+                    $sql = "SELECT * FROM cidades WHERE id_cidade = $id";
+                    $result = $conn->query($sql);
+
+                    //se achar uma cidade, guarda numa variavel row os dados dela
+                    if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                    } else {
+                        echo "<div class='error'>Cidade não encontrada.</div>";
+                    }
+                }
+
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $id = $_POST['id'];
+                    $nome = $_POST['nome'];
+                    $habitantes = $_POST['habitantes'];
+                    $pais = $_POST['selected_country'];
+
+                    #checa se a cidade já existe, pelo nome
+                    $sql = "SELECT * FROM cidades WHERE nome = ? and id_pais = ?;";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("si", $nome, $pais);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows > 0) {
+                        echo "<div class='error'>Já existe uma cidade com esse nome.</div>";
+                    }
+                    else{
+                        $sql = "UPDATE cidades SET nome='$nome', habitantes=$habitantes, id_pais=$pais WHERE id_cidade=$id";
+
+                        if ($conn->query($sql)) {
+                            echo "<script>";
+                            echo "alert('Cidade atualizada com sucesso!');";
+                            echo "window.location.href='../cities_page.php';";
+                            echo "</script>";
+                        }
+                        else{
+                            echo "<div class='error'>Erro ao atualizar a cidade.</div>";
+                        }
+                    }
+                }
+            ?>
             <input class="text-input" type="hidden" name="id" value="<?php echo $row['id_cidade']; ?>">
             <div class="form-input-title">Nome</div>
             <input class="text-input" type="text" name="nome" value="<?php echo $row['nome']; ?>">

@@ -1,41 +1,6 @@
 <?php
-include("../bd/connection.php");
-session_start();
-
-#um condicional para quando o formulário for enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    #variáveis do formulário guardadas em outras, que vão ser usadas no insert
-    $city_name = $_POST["city_name"];
-    $city_population = $_POST["city_population"];
-    $country = $_POST["selected_country"];
-    echo "pais: ".$country;
-
-    #checa se a cidade já existe, pelo nome
-    $sql = "SELECT * FROM cidades WHERE nome = ?;";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $city_name);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    #se for achado uma cidade ou mais com aquele nome, vai mandar a mensagem que já existe
-    if ($result->num_rows > 0) {
-        echo "<div class='wrong-password'>Já existe uma cidade com esse nome.</div><br><br>";
-    }
-    #senão, a cidade é cadastrada no banco de dados
-    else {
-        $sql = "INSERT INTO cidades(nome, habitantes, id_pais) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $city_name, $city_population, $country);
-
-        #condicionais para executar conexão com o banco de dados
-        if ($stmt->execute()) {
-            echo "Cidade cadastrada com sucesso!";
-            header("Location: ../index.php");
-        } else {
-            echo "Algo deu errado por nossa parte...";
-        }
-    }
-}
+    include("../bd/connection.php");
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -61,6 +26,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="forms-row">
 			<!-- Formulário cidades -->
 			<form method="post" class="form-content">
+                <?php
+                    #um condicional para quando o formulário for enviado
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        #variáveis do formulário guardadas em outras, que vão ser usadas no insert
+                        $city_name = $_POST["city_name"];
+                        $city_population = $_POST["city_population"];
+                        $country = $_POST["selected_country"];
+
+                        #checa se a cidade já existe, pelo nome
+                        $sql = "SELECT * FROM cidades WHERE nome = ? and id_pais = ?;";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("si", $city_name, $country);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        #se for achado uma cidade ou mais com aquele nome, vai mandar a mensagem que já existe
+                        if ($result->num_rows > 0) {
+                            echo "<div class='error'>Já existe uma cidade com esse nome.</div>";
+                        }
+                        #senão, a cidade é cadastrada no banco de dados
+                        else {
+                            $sql = "INSERT INTO cidades(nome, habitantes, id_pais) VALUES (?, ?, ?)";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("sss", $city_name, $city_population, $country);
+
+                            #condicionais para executar conexão com o banco de dados
+                            if ($stmt->execute()) {
+                                echo "<script>";
+                                echo "alert('Cidade cadastrada com sucesso!');";
+                                echo "window.location.href='../cities_page.php';";
+                                echo "</script>";
+                            } else {
+                                echo "Algo deu errado por nossa parte...";
+                            }
+                        }
+                    }
+                ?>
 				<div class="form-input-title">Nome</div>
 				<input class="text-input" type="text" name="city_name" required>
 				<div class="form-input-title">Habitantes</div>
@@ -84,5 +86,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </body>
-
 </html>

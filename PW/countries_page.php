@@ -146,7 +146,7 @@
         </div>
         
         <div class="forms-link-container">
-            <a href="forms/city_forms.php" class="form-link">Adicionar país</a>
+            <a href="forms/country_forms.php" class="form-link">Adicionar país</a>
         </div>
         <h3>Tabela de países</h3>
             <?php
